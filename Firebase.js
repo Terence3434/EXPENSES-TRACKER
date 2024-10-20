@@ -19,10 +19,10 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth(app);
 
-const expenseList = document.getElementById('expenseList');
+const expenseList = document.getElementById('list');
 
 // Function to load expenses
-function loadOnlineExpenses() {
+function loadExpenses() {
   const user = auth.currentUser;
 
   if (user) {
@@ -38,8 +38,6 @@ function loadOnlineExpenses() {
         const expenses = expensesData.expenses || []; // Access the expenses array
 
         // Loop through each expense and add it to the list
-      
-        
         // Store expenses in session storage
         sessionStorage.setItem('totalIncome', expensesData.totalIncome);
         sessionStorage.setItem('totalBudget', expensesData.totalBudget);
@@ -49,7 +47,6 @@ function loadOnlineExpenses() {
         sessionStorage.setItem('totalExpenditure', totalExpenditure);
         sessionStorage.setItem('expenses', JSON.stringify(expenses)); 
         loadData();
-        loadExpenses();
       } else {
         expenseList.innerHTML = '<li>No expenses found.</li>';
         sessionStorage.setItem('expenses', JSON.stringify([])); // Clear session storage if no expenses
@@ -109,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
     remove(expenseRef)
       .then(() => {
         alert("Expense deleted successfully!");
-        loadOnlineExpenses(); // Refresh the list after deletion
+        loadExpenses(); // Refresh the list after deletion
       })
       .catch((error) => {
         console.error("Error deleting expense: ", error);
@@ -124,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Load expenses on page load
- // loadOnlineExpenses();
+ // loadExpenses();
 });
 
 // Sign In
@@ -170,7 +167,7 @@ onAuthStateChanged(auth, (user) => {
       signinbt.style.display = 'none';
       logoutButton.style.display = 'block'; // Show logout button
 
-      loadOnlineExpenses();
+      loadExpenses();
   } else {
       // User is signed out
       logoutButton.style.display = 'none'; // Hide logout button

@@ -11,29 +11,24 @@ const incomeDisplay = document.getElementById('income');
 const budgetDisplay = document.getElementById('amount');
 const expenditureDisplay = document.getElementById('expenditure-value');
 const balanceDisplay = document.getElementById('balance-amount');
-const expenseList = document.getElementById('expenseList');
+const expenseList = document.getElementById('list');
 const notification = document.createElement('div');
 
 let totalIncome = 0;
 let totalBudget = 0;
 let totalExpenditure = 0;
 let expenses = [];
-
 // Load data from sessionStorage
 function loadData() {
     totalIncome = parseFloat(sessionStorage.getItem('totalIncome')) || 0;
     totalBudget = parseFloat(sessionStorage.getItem('totalBudget')) || 0;
     totalExpenditure = parseFloat(sessionStorage.getItem('totalExpenditure')) || 0;
     expenses = JSON.parse(sessionStorage.getItem('expenses')) || [];
-
     // Update the displayed values
     updateDisplays();
     loadExpenses(); // Load expenses on page load
 }
-// Load data on page load
-window.onload = loadData;
-
-
+window.loadData=loadData;
 // Save data to sessionStorage
 function saveData() {
     sessionStorage.setItem('totalIncome', totalIncome);
@@ -41,7 +36,6 @@ function saveData() {
     sessionStorage.setItem('totalExpenditure', totalExpenditure);
     sessionStorage.setItem('expenses', JSON.stringify(expenses)); // Save expenses
 }
-
 // Update displayed values
 function updateDisplays() {
     incomeDisplay.textContent = totalIncome.toFixed(2);
@@ -49,10 +43,8 @@ function updateDisplays() {
     expenditureDisplay.textContent = totalExpenditure.toFixed(2);
     updateBalance(); // Update balance display
 }
-
 // Load and display expenses
 function loadExpenses() {
-    expenses=
     expenseList.innerHTML = ''; // Clear existing list
     expenses.forEach((expense, index) => {
         const listItem = document.createElement('div');
@@ -81,9 +73,6 @@ function loadExpenses() {
         expenseList.appendChild(listItem); // Append the list item
     });
 }
-
-window.onload=loadExpenses;
-
 // Remove expense and update totals
 function removeExpense(index) {
     const amount = expenses[index].amount; // Get the amount to remove
@@ -93,12 +82,10 @@ function removeExpense(index) {
     updateBalance();
     saveData(); // Update session storage
 }
-
 // Set Income
 totalIncomeButton.addEventListener('click', () => {
     const incomeValue = parseFloat(incomeInput.value);
     const incomeTitle = incomeTitleInput.value.trim();
-
     if (incomeValue > 0 && incomeTitle) {
         totalIncome += incomeValue;
         clearInputs([incomeInput, incomeTitleInput]);
@@ -108,11 +95,9 @@ totalIncomeButton.addEventListener('click', () => {
         showError('income-error');
     }
 });
-
 // Set Budget
 totalAmountButton.addEventListener('click', () => {
     const budgetValue = parseFloat(budgetInput.value);
-
     // Check if budget is positive and does not exceed total income
     if (budgetValue > 0 && budgetValue <= totalIncome) {
         totalBudget = budgetValue;
@@ -124,12 +109,10 @@ totalAmountButton.addEventListener('click', () => {
         showError('budget-error');
     }
 });
-
 // Add Expense
 checkAmountButton.addEventListener('click', () => {
     const expenseValue = parseFloat(userAmountInput.value);
     const expenseTitle = productTitleInput.value.trim();
-
     if (expenseValue > 0 && expenseTitle) {
         totalExpenditure += expenseValue;
         expenses.push({ title: expenseTitle, amount: expenseValue });
@@ -141,7 +124,6 @@ checkAmountButton.addEventListener('click', () => {
         showError('product-title-error');
     }
 });
-
 // Update balance display
 function updateBalance() {
     const balance = totalBudget - totalExpenditure;
@@ -154,12 +136,10 @@ function updateBalance() {
         clearNotification(); // Clear notification if balance is okay
     }
 }
-
 // Clear input fields
 function clearInputs(inputs) {
     inputs.forEach(input => input.value = '');
 }
-
 // Show error message
 function showError(errorId) {
     const errorElement = document.getElementById(errorId);
@@ -169,7 +149,6 @@ function showError(errorId) {
         errorElement.classList.add('hide');
     }, 3000);
 }
-
 // Show notification
 function showNotification(message) {
     notification.textContent = message;
@@ -179,22 +158,16 @@ function showNotification(message) {
     notification.style.marginTop = '10px';
     notification.style.borderRadius = '5px';
     document.body.appendChild(notification);
-
     // Automatically clear notification after 3 seconds
     setTimeout(clearNotification, 3000);
 }
-
 // Clear notification
 function clearNotification() {
     if (notification.parentNode) {
         notification.parentNode.removeChild(notification);
     }
 }
-
 // Toggle Dark Mode
-document.getElementById('theme-toggle').addEventListener('click', () => {
-    document.body.classList.toggle('dark-mode');
-});
-
-// Load data on page load
-window.onload = loadData;
+// document.getElementById('theme-toggle').addEventListener('click', () => {
+//     document.body.classList.toggle('dark-mode');
+// });
