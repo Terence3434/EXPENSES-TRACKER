@@ -14,7 +14,6 @@ const balanceDisplay = document.getElementById('balance-amount');
 const expenseList = document.getElementById('expenseList');
 const notification = document.createElement('div');
 
-
 let totalIncome = 0;
 let totalBudget = 0;
 let totalExpenditure = 0;
@@ -29,10 +28,8 @@ function loadData() {
 
     // Update the displayed values
     updateDisplays();
-    loadExpensesData(); // Load expenses on page load
+    loadExpenses(); // Load expenses on page load
 }
-
-window.loadData=loadData;
 
 // Save data to sessionStorage
 function saveData() {
@@ -51,12 +48,14 @@ function updateDisplays() {
 }
 
 // Load and display expenses
-function loadExpensesData(expenses) {
+function loadExpenses() {
     expenseList.innerHTML = ''; // Clear existing list
-
     expenses.forEach((expense, index) => {
         const listItem = document.createElement('div');
-        listItem.classList.add('expense-item'); // Add a class for styling
+        listItem.style.display = 'flex'; // Use flexbox for layout
+        listItem.style.justifyContent = 'space-between'; // Space between title and button
+        listItem.style.alignItems = 'center'; // Center align items
+        listItem.style.color="white";
         
         // Expense text
         const expenseText = document.createElement('span');
@@ -71,20 +70,13 @@ function loadExpensesData(expenses) {
             expenseList.removeChild(listItem);
         };
         
-        listItem.appendChild(deleteButton); // Append the button
+        // Style the delete button
+        deleteButton.style.marginLeft = '10px'; // Space between text and button
+        listItem.appendChild(deleteButton);
+        
         expenseList.appendChild(listItem); // Append the list item
     });
 }
-
-window.loadExpensesData=loadExpensesData;
-
-// Function to simulate loading expenses (could be from a database)
-function loadAndDisplayExpenses() {
-    loadExpensesData(expenses);
-}
-
-// Event listener for loading expenses
-document.getElementById('loadExpensesDataButton').addEventListener('click', loadAndDisplayExpenses);
 
 // Remove expense and update totals
 function removeExpense(index) {
@@ -137,7 +129,7 @@ checkAmountButton.addEventListener('click', () => {
         expenses.push({ title: expenseTitle, amount: expenseValue });
         clearInputs([userAmountInput, productTitleInput]);
         updateDisplays(); // Update displayed values
-        loadExpensesData(); // Refresh expense list
+        loadExpenses(); // Refresh expense list
         saveData(); // Update session storage
     } else {
         showError('product-title-error');
