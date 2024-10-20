@@ -66,7 +66,7 @@
             <div class="sub-container">
                 <!-- Income -->
                 <div class="income-amount-container">
-                    <h3>Income</h3>
+                    <h3 class="col">Income</h3>
                     <p class="hide error" id="income-error">Value cannot be empty or negative</p>
                     <input type="text" class="income-title" id="income-title" placeholder="Enter Title of income" />
                     <input type="number" id="total-income" placeholder="Enter income" />
@@ -74,14 +74,14 @@
                 </div>
                 <!-- Budget -->
                 <div class="total-amount-container">
-                    <h3>Budget</h3>
+                    <h3 class="col">Budget</h3>
                     <p class="hide error" id="budget-error">Value cannot be empty or negative</p>
                     <input type="number" id="total-amount" placeholder="Enter Total Amount" />
                     <button class="submit" id="total-amount-button">Set Budget</button>
                 </div>
                 <!-- Expenditure -->
                 <div class="user-amount-container">
-                    <h3>Expenses</h3>
+                    <h3 class="col">Expenses</h3>
                     <p class="hide error" id="product-title-error">Values cannot be empty</p>
                     <input type="text" class="product-title" id="product-title" placeholder="Enter Title of Product" />
                     <input type="number" id="user-amount" placeholder="Enter Cost of Product" />
@@ -98,10 +98,10 @@
         </div>
         <!-- List -->
         <div id="expenseListContainer">
-            <h2>Expenses</h2>
+            <h2 class="col">Expenses</h2>
             <div id="expenseList"></div> <!-- This is where expenses will be loaded -->
         </div>
-        <button id="loadExpensesButton">Load Expenses</button>
+        <button id="loadExpensesButton" class="submit">Load Expenses</button>
         
     </div>
 </body>

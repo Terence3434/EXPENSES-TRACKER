@@ -127,6 +127,10 @@ input[type="number"]:focus {
 .EL{
     color: #ff8c00;
 }
+
+.col{
+    color:#ffa500;
+}
 /* Animation */
 @keyframes fadeIn {
     from {
