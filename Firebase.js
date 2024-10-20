@@ -22,7 +22,7 @@ const auth = getAuth(app);
 const expenseList = document.getElementById('expenseList');
 
 // Function to load expenses
-function loadExpenses() {
+function loadOnlineExpenses() {
   const user = auth.currentUser;
 
   if (user) {
@@ -38,7 +38,7 @@ function loadExpenses() {
         const expenses = expensesData.expenses || []; // Access the expenses array
 
         // Loop through each expense and add it to the list
-        loadExpensesData();
+      
         
         // Store expenses in session storage
         sessionStorage.setItem('totalIncome', expensesData.totalIncome);
@@ -49,6 +49,7 @@ function loadExpenses() {
         sessionStorage.setItem('totalExpenditure', totalExpenditure);
         sessionStorage.setItem('expenses', JSON.stringify(expenses)); 
         loadData();
+        loadExpenses();
       } else {
         expenseList.innerHTML = '<li>No expenses found.</li>';
         sessionStorage.setItem('expenses', JSON.stringify([])); // Clear session storage if no expenses
@@ -108,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
     remove(expenseRef)
       .then(() => {
         alert("Expense deleted successfully!");
-        loadExpenses(); // Refresh the list after deletion
+        loadOnlineExpenses(); // Refresh the list after deletion
       })
       .catch((error) => {
         console.error("Error deleting expense: ", error);
@@ -123,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Load expenses on page load
- // loadExpenses();
+ // loadOnlineExpenses();
 });
 
 // Sign In
@@ -169,7 +170,7 @@ onAuthStateChanged(auth, (user) => {
       signinbt.style.display = 'none';
       logoutButton.style.display = 'block'; // Show logout button
 
-      loadExpenses();
+      loadOnlineExpenses();
   } else {
       // User is signed out
       logoutButton.style.display = 'none'; // Hide logout button

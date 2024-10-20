@@ -30,6 +30,9 @@ function loadData() {
     updateDisplays();
     loadExpenses(); // Load expenses on page load
 }
+// Load data on page load
+window.onload = loadData;
+
 
 // Save data to sessionStorage
 function saveData() {
@@ -49,6 +52,7 @@ function updateDisplays() {
 
 // Load and display expenses
 function loadExpenses() {
+    expenses=
     expenseList.innerHTML = ''; // Clear existing list
     expenses.forEach((expense, index) => {
         const listItem = document.createElement('div');
@@ -77,6 +81,8 @@ function loadExpenses() {
         expenseList.appendChild(listItem); // Append the list item
     });
 }
+
+window.onload=loadExpenses;
 
 // Remove expense and update totals
 function removeExpense(index) {
