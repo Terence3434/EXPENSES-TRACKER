@@ -83,3 +83,29 @@ p {
         opacity: 1;
     }
 }
+#expenseListContainer {
+    margin: 20px;
+}
+
+.expense-item {
+    display: flex; /* Use flexbox for layout */
+    justify-content: space-between; /* Space between title and button */
+    align-items: center; /* Center align items */
+    padding: 10px;
+    border: 1px solid #444;
+    margin-bottom: 5px;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #ff4757; /* Button color */
+    color: white; /* Text color */
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #e84118; /* Darker color on hover */
+}

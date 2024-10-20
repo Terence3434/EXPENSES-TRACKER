@@ -19,8 +19,49 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth(app);
 
+const expenseList = document.getElementById('expenseList');
+
+// Function to load expenses
+function loadExpenses() {
+  const user = auth.currentUser;
+
+  if (user) {
+    const expensesRef = ref(database, `expenses/${user.uid}`);
+
+    onValue(expensesRef, (snapshot) => {
+      const expensesData = snapshot.val();
+
+      // Clear the current list
+      expenseList.innerHTML = '';
+
+      if (expensesData) {
+        const expenses = expensesData.expenses || []; // Access the expenses array
+
+        // Loop through each expense and add it to the list
+        loadExpensesData();
+        
+        // Store expenses in session storage
+        sessionStorage.setItem('totalIncome', expensesData.totalIncome);
+        sessionStorage.setItem('totalBudget', expensesData.totalBudget);
+
+        // Update total expenditure
+        const totalExpenditure = expenses.reduce((total, expense) => total + expense.amount, 0);
+        sessionStorage.setItem('totalExpenditure', totalExpenditure);
+        sessionStorage.setItem('expenses', JSON.stringify(expenses)); 
+        loadData();
+      } else {
+        expenseList.innerHTML = '<li>No expenses found.</li>';
+        sessionStorage.setItem('expenses', JSON.stringify([])); // Clear session storage if no expenses
+      }
+    });
+  } else {
+    alert("User not authenticated. Please log in.");
+  }
+}
+
+
 document.addEventListener('DOMContentLoaded', () => {
-  const expenseList = document.getElementById('list');
+  const expenseList = document.getElementById('expenseList');
 
   // Function to upload income, budget, and expenses
   document.getElementById('upload').addEventListener('click', async () => {
@@ -58,42 +99,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Function to load expenses
-  function loadExpenses() {
-    const user = auth.currentUser;
-    if (!user) return; // Ensure the user is logged in
-
-    const expensesRef = ref(database, `expenses/${user.uid}`);
-
-    onValue(expensesRef, (snapshot) => {
-      expenseList.innerHTML = ''; // Clear existing list
-      snapshot.forEach((childSnapshot) => {
-        const expense = childSnapshot.val();
-        const expenseId = childSnapshot.key; // Get the unique ID for deletion
-
-        const listItem = document.createElement('div');
-        listItem.style.display = 'flex';
-        listItem.style.justifyContent = 'space-between';
-        listItem.style.alignItems = 'center';
-        listItem.style.color="white";
-
-        const expenseText = document.createElement('span');
-        expenseText.textContent = `${expense.title}: $${expense.amount.toFixed(2)}`;
-        listItem.appendChild(expenseText);
-
-        // Add delete button
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Delete';
-        deleteButton.onclick = () => {
-          deleteExpense(expenseId);
-        };
-        deleteButton.style.marginLeft = '10px';
-        listItem.appendChild(deleteButton);
-
-        expenseList.appendChild(listItem);
-      });
-    });
-  }
 
   // Function to delete an expense
   function deleteExpense(expenseId) {
@@ -118,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Load expenses on page load
-  loadExpenses();
+ // loadExpenses();
 });
 
 // Sign In
@@ -163,6 +168,8 @@ onAuthStateChanged(auth, (user) => {
       loginbt.style.display = 'none';
       signinbt.style.display = 'none';
       logoutButton.style.display = 'block'; // Show logout button
+
+      loadExpenses();
   } else {
       // User is signed out
       logoutButton.style.display = 'none'; // Hide logout button

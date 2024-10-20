@@ -18,22 +18,22 @@
 <script type="module" src="script.js" defer></script>
 </head>
 <body class="main">
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">EXPENSES TRACKER</a>
+            <a class="navbar-brand  text-white" href="#">EXPENSES TRACKER</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" id="login" href="signIn.html">Login</a>
+                        <a class="nav-link text-white" id="login" href="signIn.html">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="signup" href="signUp.html">Sign Up</a>
+                        <a class="nav-link  text-white" id="signup" href="signUp.html">Sign Up</a>
                     </li>
                     <li class="nav-item">
-                        <button class="nav-link btn btn-link" id="logout" style="display: none;">Logout</button>
+                        <button class="nav-link btn btn-link  text-white" id="logout" style="display: none;">Logout</button>
                     </li>
                 </ul>
             </div>
@@ -97,10 +97,12 @@
             </div>
         </div>
         <!-- List -->
-        <div class="list">
-            <h3 class="EL">Expense List</h3>
-            <div class="list-container" id="list"></div>
+        <div id="expenseListContainer">
+            <h2>Expenses</h2>
+            <div id="expenseList"></div> <!-- This is where expenses will be loaded -->
         </div>
+        <button id="loadExpensesButton">Load Expenses</button>
+        
     </div>
 </body>
 </html>

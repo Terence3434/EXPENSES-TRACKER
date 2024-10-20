@@ -11,8 +11,9 @@ const incomeDisplay = document.getElementById('income');
 const budgetDisplay = document.getElementById('amount');
 const expenditureDisplay = document.getElementById('expenditure-value');
 const balanceDisplay = document.getElementById('balance-amount');
-const expenseList = document.getElementById('list');
+const expenseList = document.getElementById('expenseList');
 const notification = document.createElement('div');
+
 
 let totalIncome = 0;
 let totalBudget = 0;
@@ -28,8 +29,10 @@ function loadData() {
 
     // Update the displayed values
     updateDisplays();
-    loadExpenses(); // Load expenses on page load
+    loadExpensesData(); // Load expenses on page load
 }
+
+window.loadData=loadData;
 
 // Save data to sessionStorage
 function saveData() {
@@ -48,14 +51,12 @@ function updateDisplays() {
 }
 
 // Load and display expenses
-function loadExpenses() {
+function loadExpensesData(expenses) {
     expenseList.innerHTML = ''; // Clear existing list
+
     expenses.forEach((expense, index) => {
         const listItem = document.createElement('div');
-        listItem.style.display = 'flex'; // Use flexbox for layout
-        listItem.style.justifyContent = 'space-between'; // Space between title and button
-        listItem.style.alignItems = 'center'; // Center align items
-        listItem.style.color="white";
+        listItem.classList.add('expense-item'); // Add a class for styling
         
         // Expense text
         const expenseText = document.createElement('span');
@@ -70,13 +71,20 @@ function loadExpenses() {
             expenseList.removeChild(listItem);
         };
         
-        // Style the delete button
-        deleteButton.style.marginLeft = '10px'; // Space between text and button
-        listItem.appendChild(deleteButton);
-        
+        listItem.appendChild(deleteButton); // Append the button
         expenseList.appendChild(listItem); // Append the list item
     });
 }
+
+window.loadExpensesData=loadExpensesData;
+
+// Function to simulate loading expenses (could be from a database)
+function loadAndDisplayExpenses() {
+    loadExpensesData(expenses);
+}
+
+// Event listener for loading expenses
+document.getElementById('loadExpensesDataButton').addEventListener('click', loadAndDisplayExpenses);
 
 // Remove expense and update totals
 function removeExpense(index) {
@@ -129,7 +137,7 @@ checkAmountButton.addEventListener('click', () => {
         expenses.push({ title: expenseTitle, amount: expenseValue });
         clearInputs([userAmountInput, productTitleInput]);
         updateDisplays(); // Update displayed values
-        loadExpenses(); // Refresh expense list
+        loadExpensesData(); // Refresh expense list
         saveData(); // Update session storage
     } else {
         showError('product-title-error');
