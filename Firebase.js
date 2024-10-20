@@ -30,7 +30,6 @@ function loadExpenses() {
 
     onValue(expensesRef, (snapshot) => {
       const expensesData = snapshot.val();
-
       // Clear the current list
       expenseList.innerHTML = '';
 
