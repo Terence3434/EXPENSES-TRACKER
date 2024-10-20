@@ -109,3 +109,21 @@ button {
 button:hover {
     background-color: #e84118; /* Darker color on hover */
 }
+
+.navbar-dark .navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.1); /* Optional border color */
+}
+
+.navbar-dark .navbar-toggler-icon {
+    background-image: none; /* Remove default background image */
+}
+
+.navbar-dark .navbar-toggler-icon:after,
+.navbar-dark .navbar-toggler-icon:before {
+    content: '';
+    display: block;
+    width: 1.5em; /* Adjust width */
+    height: 0.2em; /* Adjust height */
+    background-color: white; /* Set to white */
+    margin: 0.3em 0; /* Space between lines */
+}
