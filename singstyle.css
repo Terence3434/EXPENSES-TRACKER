@@ -128,3 +128,6 @@ button:hover {
     background-color: white; /* Set to white */
     margin: 0.3em 0; /* Space between lines */
 }
+.sign-container{
+    margin-top:50% ;
+}
